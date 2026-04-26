@@ -40,8 +40,8 @@ jobs:
           --configuration production \
           --base-href /Jasmine/
           
-      - name: Routing fix for Angular on GitHub Pages
-        run: cp dist/jasmineapp/index.html dist/jasmineapp/404.html
+      - name: Routing fix
+        run: cp dist/jasmineapp/browser/index.html dist/jasmineapp/browser/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
