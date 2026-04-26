@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -21,32 +21,29 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: jasmineapp/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      - name: Build Angular app
+      - name: Build Angular
         run: |
           npm run build -- \
           --configuration production \
           --base-href /Jasmine/
-          
+
       - name: Routing fix
         run: cp dist/jasmineapp/browser/index.html dist/jasmineapp/browser/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: jasmineapp/dist/jasmineapp
+          path: jasmineapp/dist/jasmineapp/browser
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: actions/deploy-pages@v4
